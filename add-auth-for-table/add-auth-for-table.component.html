@@ -1,0 +1,56 @@
+<button *ngIf="isNewRecord" (click)="addModal()" class="btn btn-success">
+  <i class="glyphicon glyphicon-plus"></i> Добавить
+</button>
+<button *ngIf="!isNewRecord" (click)="addModal()" class="btn btn-info">
+  <i class="glyphicon glyphicon-pencil"></i> Редактировать
+</button>
+
+
+<div class="modal fade" bsModal #templateModalAddRow="bs-modal"
+     [config]="{backdrop: 'static', keyboard: false }"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalApi.closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Добавление сведений</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="control-label" for="normDoc">
+                Нормативные правовые документы:
+              </label>
+              <input type="text" class="form-control" id="normDoc" [(ngModel)]="editRow.normDoc">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group" style="margin-top: 28px;">
+              <label class="control-label" for="matched">
+                Соответствует:
+              </label>
+              <input type="checkbox" [(ngModel)]="editRow.matched"
+                (click)="editRow.matched=checkboxOnOff($event)"
+                [ngModelOptions]="{standalone: true}" id="matched" name="matched">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-md-4 text-left">
+          <button (click)="objectSave()" class="btn btn-primary">
+            <i class="glyphicon glyphicon-save"></i> Сохранить
+          </button>
+        </div>
+        <div class="col-md-4 col-md-offset-4">
+          <button class="btn btn-default" (click)="saveWoChanges()">
+            <i class="glyphicon glyphicon glyphicon-arrow-left"></i> Не сохранять
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

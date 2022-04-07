@@ -1,0 +1,86 @@
+<div class="col-md-12">
+  <div class="input-group">
+    <input type="text" class="form-control" readonly [(ngModel)]="planName"
+           [ngModelOptions]="{standalone: true}">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" (click)="modalApi.openModal(WaterObjectModal)"
+                [disabled]="disabledBtn">Выбор</button>
+    </span>
+  </div>
+</div>
+
+<!-- Static modal for water objects -->
+<div class="modal fade" bsModal #WaterObjectModal="bs-modal" [config]="{backdrop: 'static', keyboard: false }"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="modalApi.closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Объем финансирования по мероприятиям (план)</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="panel-body">
+              <div class="form-group-sm">
+                <div class="input-group">
+                  <label for="search-text">Контекстный поиск</label>
+                  <input type="text" class="form-control" [(ngModel)]="miniModel.term"
+                         [ngModelOptions]="{standalone: true}" value="">
+                  <span class="input-group-btn">
+                    <button class="btn btn-danger clean-btn-water-input" type="button" style="margin-top: 22px;height: 30px;"
+                            (click)="miniModel.term = ''">X</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="panel-body col-md-2">
+            <button type="button" class="btn btn-primary col-md-12 marginButtons" (click)="applyFilters()">Поиск
+            </button>
+          </div>
+          <div class="panel-body col-md-2">
+            <water-usage-edit-finace-plan
+              [editUid]='miniModel.selectedPlan'>
+            </water-usage-edit-finace-plan>
+          </div>
+          <div class="panel-body col-md-3">
+            <water-usage-add-finace-plan
+              [addNew]='true'>
+            </water-usage-add-finace-plan>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel-body">
+              <div class="">
+                <label for="wo-select">Найденные планы мероприятий</label>
+                <select size="10" id="wo-select" name="wo-select" class="form-control"
+                        [(ngModel)]="miniModel.selectedPlan" [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let plan of planes" value="{{plan.uid}}">
+                    {{plan.date}} - {{plan.number}} - {{plan.docNumber}} - {{plan.userName}}{{plan.comment!=null&&plan.comment!=""?' - '+plan.comment:null}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="panel-body col-md-3">
+              <button type="button" class="btn btn-success col-md-12 marginButtons" (click)="selectPlan()">Выбрать
+              </button>
+            </div>
+            <div class="panel-body col-md-3">
+              <button type="button" class="btn btn-danger col-md-12 marginButtons" (click)="modalApi.closeModal()">
+                Закрыть
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

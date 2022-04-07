@@ -1,0 +1,61 @@
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      от {{contractTransfer.signDate ? contractTransfer.signDate : '????-??-??'}}
+      : {{contractTransfer.newRegNumber}}
+      ({{contractTransfer.documentTypeName}})
+    </div>
+    <div class="panel-body">
+      <div class="col-md-12">
+        <button (click)="submitForm()" class="btn btn-primary">
+          <i class="glyphicon glyphicon-save"></i>Записать и закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <form class="form-inline">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="form-check">
+            <input readonly disabled type="checkbox" class="form-check-input"
+                   id="is-registered-form-input"
+                   [(ngModel)]="contractTransfer.isRegistered" name="isRegistered" [ngModelOptions]="{standalone: true}">
+            <label class="form-check-label" for="is-registered-form-input">
+              Зарегистрирован в ГВР
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label" for="register-date-input">
+              Дата регистрации в ГВР
+            </label>
+            <input (change)="changeRegDate($event)" id="register-date-input" type="date" class="form-control" [ngModelOptions]="{standalone: true}"
+                   [(ngModel)]="contractTransfer.registerDate" disabled>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label" for="register-status-input">
+              Текущее состояние документа
+            </label>
+            <select  [(ngModel)]="contractTransfer.statusId" [ngModelOptions]="{standalone: true}" class="form-control" id="register-status-input">
+              <option [selected]="true" [ngValue]="0" disabled selected>Выбрать тип документа</option>
+              <option *ngFor="let status of statusArray" [value]="status.uid">
+                {{status.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <tabset [vertical]="true">
+    <tab heading="Основная часть">
+      <app-contract-transfer-main
+        [contractTransfer]="contractTransfer">
+      </app-contract-transfer-main>
+    </tab>
+  </tabset>
+</div>
